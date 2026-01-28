@@ -1,0 +1,37 @@
+<div>test</div>
+<div class="game-screen">
+  <app-header
+    [username]="state.username"
+    [accuracy]="accuracy"
+    [timeElapsed]="timeElapsed"
+  ></app-header>
+  <div class="bubbles-container">
+    <app-bubble
+      *ngFor="let bubble of bubbles"
+      [color]="bubble.color"
+      [size]="bubble.size"
+      [id]="bubble.id"
+      [top]="bubble.top"
+      [left]="bubble.left"
+      (click)="onBubbleClick(bubble.id)"
+    ></app-bubble>
+
+    <app-question-modal
+      *ngIf="showQuestionModal"
+      [question]="currentQuestion"
+      [timeLimit]="currentQuestion.available_time_limit"
+      (answerSelected)="onAnswerSelected($event)"
+      (skipQuestion)="onSkipQuestion()"
+      (remainingTimeUpdate)="calculateTimeElapsed($event)"
+    ></app-question-modal>
+  </div>
+  <div class="hud">
+    <div class="username">{{ username }}</div>
+    <div class="accuracy">
+      Accuracy: {{ accuracy }}%
+    </div>
+    <div class="time-elapsed">
+      Time: {{ timeElapsed }}s
+    </div>
+  </div>
+</div>

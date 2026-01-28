@@ -1,0 +1,22 @@
+<div class="wrap">
+  <div class="card">
+    <h2>How it works</h2>
+    <ul>
+      <li>Click a bubble to open a question.</li>
+      <li>Answer fast — time counts only when a question ends.</li>
+      <li>Correct pops a bubble (+1 point).</li>
+      <li>Wrong adds 2 bubbles (-1 point).</li>
+      <li>Skip/Timeout adds 1 bubble.</li>
+      <li>Win at 0 bubbles. Lose at 21+ bubbles.</li>
+    </ul>
+
+    <label class="check">
+      <input type="checkbox" [checked]="understood" (change)="understood = !understood" />
+      <span>I understand</span>
+    </label>
+
+    <button class="cta" [disabled]="!understood" (click)="onStart()">
+      Start Game
+    </button>
+  </div>
+</div>

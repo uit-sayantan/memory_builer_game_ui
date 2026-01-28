@@ -1,0 +1,14 @@
+<div class="modal-overlay" *ngIf="question">
+  <div class="modal-content">
+    <h2>{{ question?.question }}</h2>
+    <div class="options">
+      <div *ngFor="let option of [question?.answer_1, question?.answer_2, question?.answer_3, question?.answer_4]; let i = index" 
+           [class.selected]="selectedAnswer === option" 
+           (click)="onAnswer(option)">
+        {{ option }}
+      </div>
+    </div>
+    <div class="timer">{{ remainingTime }}s</div>
+    <button class="skip-button" (click)="onSkip()">Skip</button>
+  </div>
+</div>

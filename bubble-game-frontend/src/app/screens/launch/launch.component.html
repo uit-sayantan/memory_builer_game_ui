@@ -1,0 +1,21 @@
+<div class="launch-wrap">
+  <div class="bg-blobs"></div>
+
+  <div class="card">
+    <h1>Bubble Game</h1>
+    <p class="sub">Pick a topic. Pop bubbles. Beat the chaos.</p>
+
+    <label>Enter your username</label>
+    <input [(ngModel)]="username" placeholder="e.g. Sandip" />
+
+    <label>Select topic</label>
+    <select [(ngModel)]="topic">
+      <option value="">-- Choose --</option>
+      <option *ngFor="let t of topics" [value]="t">{{ t }}</option>
+    </select>
+
+    <button class="cta" [disabled]="!canLaunch" (click)="onLaunch()">
+      Launch
+    </button>
+  </div>
+</div>

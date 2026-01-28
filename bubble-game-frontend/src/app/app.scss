@@ -1,0 +1,8 @@
+.app-shell {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, rgba(0,255,255,0.14), transparent 40%),
+              radial-gradient(circle at bottom, rgba(255,0,255,0.12), transparent 45%),
+              linear-gradient(120deg, #070b1f, #0c1638);
+  color: #fff;
+  overflow: hidden;
+}

@@ -1,0 +1,14 @@
+<div
+  class="bubble"
+  [ngStyle]="{
+    'background': bubbleGradient,
+    'width': size + 'px',
+    'height': size + 'px',
+    'top': top + '%',
+    'left': left + '%'
+  }"
+  [class.hovered]="isHovered"
+  (click)="onClick()"
+>
+  <span class="highlight"></span>
+</div>

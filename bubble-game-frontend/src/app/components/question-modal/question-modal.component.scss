@@ -1,0 +1,77 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  animation: zoomIn 0.5s ease-out;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  color: black !important;
+}
+
+.options div {
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  border-radius: 8px;
+  color: black;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.options div.selected {
+  background-color: #4caf50;
+  color: white;
+}
+
+.options div:hover {
+  background-color: #f1f1f1;
+  transform: scale(1.05);
+}
+
+.timer {
+  margin: 20px 0;
+  font-size: 1.5em;
+  color: #ff5722;
+}
+
+.skip-button {
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.8); }
+  to { transform: scale(1); }
+}
