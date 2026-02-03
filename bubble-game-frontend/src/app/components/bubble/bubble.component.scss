@@ -47,9 +47,9 @@
 
 /* Float animations */
 @keyframes floatY {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-25px); }
-  100% { transform: translateY(0); }
+  0% { margin-top: 0; }
+  50% { margin-top: -25px; }
+  100% { margin-top: 0; }
 }
 
 @keyframes floatX {
@@ -62,4 +62,329 @@
 .bubble:active {
   transform: scale(0.85);
   filter: brightness(1.1);
+}
+
+/* Spawn animation for new bubbles */
+@keyframes spawn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.bubble.spawning {
+  animation: 
+    spawn 0.5s ease-out forwards,
+    floatY 6s ease-in-out infinite,
+    floatX 8s ease-in-out infinite;
+}
+
+
+/* Wrong answer bubble effect - red glow */
+@keyframes wrongPulse {
+  0%, 100% {
+    box-shadow:
+      inset -8px -12px 20px rgba(255, 255, 255, 0.25),
+      inset 6px 6px 14px rgba(0, 0, 0, 0.15),
+      0 10px 25px rgba(0, 0, 0, 0.25),
+      0 0 15px rgba(255, 0, 0, 0.6);
+  }
+  50% {
+    box-shadow:
+      inset -8px -12px 20px rgba(255, 255, 255, 0.25),
+      inset 6px 6px 14px rgba(0, 0, 0, 0.15),
+      0 10px 25px rgba(0, 0, 0, 0.25),
+      0 0 30px rgba(255, 0, 0, 0.9);
+  }
+}
+
+/* Shake animation for wrong answer */
+@keyframes wrongShake {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  10% {
+    transform: translateX(-8px) rotate(-1deg);
+  }
+  20% {
+    transform: translateX(8px) rotate(1deg);
+  }
+  30% {
+    transform: translateX(-8px) rotate(-1deg);
+  }
+  40% {
+    transform: translateX(8px) rotate(1deg);
+  }
+  50% {
+    transform: translateX(-5px) rotate(-0.5deg);
+  }
+  60% {
+    transform: translateX(5px) rotate(0.5deg);
+  }
+  70% {
+    transform: translateX(-3px) rotate(-0.3deg);
+  }
+  80% {
+    transform: translateX(3px) rotate(0.3deg);
+  }
+  90% {
+    transform: translateX(-1px) rotate(-0.1deg);
+  }
+}
+
+/* Flash effect for wrong answer */
+@keyframes wrongFlash {
+  0%, 100% {
+    filter: brightness(1) saturate(1);
+  }
+  25% {
+    filter: brightness(1.4) saturate(1.5);
+  }
+  50% {
+    filter: brightness(1.2) saturate(1.3);
+  }
+  75% {
+    filter: brightness(1.4) saturate(1.5);
+  }
+}
+
+.bubble.wrong {
+  animation:
+    spawn 0.5s ease-out forwards,
+    floatY 6s ease-in-out infinite,
+    floatX 8s ease-in-out infinite,
+    wrongPulse 5s ease-in-out forwards,
+    wrongShake 5s ease-in-out forwards,
+    wrongFlash 5s ease-in-out forwards;
+  filter: saturate(1.3);
+}
+
+.bubble.wrong.spawning {
+  animation:
+    spawn 0.5s ease-out forwards,
+    floatY 6s ease-in-out infinite,
+    floatX 8s ease-in-out infinite,
+    wrongPulse 5s ease-in-out forwards,
+    wrongShake 5s ease-in-out forwards,
+    wrongFlash 5s ease-in-out forwards;
+  filter: saturate(1.3);
+}
+
+/* Emoticon fade out after 5 seconds */
+@keyframes emoticondFadeOut {
+  0%, 98% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Sad face emoticon */
+.emoticon-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+  animation: emoticondFadeOut 5s ease-out forwards;
+}
+
+.sad-face {
+  position: relative;
+  width: 70%;
+  height: 70%;
+  animation: sadFaceAppear 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes sadFaceAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-45deg);
+  }
+  50% {
+    transform: scale(1.15) rotate(5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Face background overlay */
+.face-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.1));
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* Eyes styling */
+.eye {
+  position: absolute;
+  width: 18%;
+  height: 25%;
+  background-color: white;
+  border-radius: 50%;
+  top: 25%;
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.left-eye {
+  left: 15%;
+  animation: eyeAnimation 0.6s ease-in-out 0.1s both;
+}
+
+.right-eye {
+  right: 15%;
+  animation: eyeAnimation 0.6s ease-in-out 0.3s both;
+}
+
+@keyframes eyeAnimation {
+  0% {
+    transform: scale(0) translateY(-20px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Pupils inside eyes */
+.pupil {
+  width: 50%;
+  height: 50%;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 50%;
+  animation: pupilSad 0.7s ease-in-out 0.5s both;
+}
+
+@keyframes pupilSad {
+  0% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(8px) scaleX(0.8);
+  }
+}
+
+/* Sad mouth - downward curve */
+.mouth {
+  position: absolute;
+  width: 35%;
+  height: 12%;
+  bottom: 15%;
+  left: 32.5%;
+  border: 3px solid rgba(0, 0, 0, 0.7);
+  border-top: none;
+  border-radius: 0 0 50px 50px;
+  animation: mouthFrown 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s both;
+  z-index: 2;
+}
+
+@keyframes mouthFrown {
+  0% {
+    transform: scaleY(0) translateY(-10px);
+    opacity: 0;
+  }
+  70% {
+    transform: scaleY(1.2) translateY(0);
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* Tear drops */
+.tear {
+  position: absolute;
+  width: 5%;
+  height: 15%;
+  background: radial-gradient(circle at 30% 30%, rgba(100, 150, 255, 0.9), rgba(50, 100, 200, 0.6));
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  z-index: 2;
+  animation: tearFall 1s ease-in 0.5s forwards;
+}
+
+.left-tear {
+  left: 22%;
+  top: 45%;
+}
+
+.right-tear {
+  right: 22%;
+  top: 45%;
+}
+
+@keyframes tearFall {
+  0% {
+    opacity: 1;
+    transform: rotate(-45deg) translateY(-20px);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-45deg) translateY(60px);
+  }
+}
+
+/* Wrong badge (X mark) */
+.wrong-badge {
+  position: absolute;
+  font-size: 120%;
+  font-weight: bold;
+  color: rgba(255, 0, 0, 0.9);
+  animation: wrongBadgeAppear 0.5s ease-out, wrongBadgePulse 0.6s ease-in-out 0.5s infinite;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+  z-index: 3;
+}
+
+@keyframes wrongBadgeAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-90deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes wrongBadgePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+.bubble.wrong {
+  animation:
+    wrongPulse 0.6s ease-in-out infinite,
+    wrongShake 0.5s ease-in-out,
+    wrongFlash 0.6s ease-in-out;
+  filter: saturate(1.3);
 }

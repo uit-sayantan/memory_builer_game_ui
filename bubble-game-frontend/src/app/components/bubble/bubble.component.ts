@@ -1,4 +1,4 @@
-import { Component, Input, HostListener, OnInit } from '@angular/core';
+import { Component, Input, HostListener, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,12 +8,14 @@ import { CommonModule } from '@angular/common';
   templateUrl: './bubble.component.html',
   styleUrls: ['./bubble.component.scss']
 })
-export class BubbleComponent implements OnInit {
+export class BubbleComponent implements OnInit, OnChanges {
   @Input() color: string = 'blue';
   @Input() size: number = 50;
   @Input() id: number = 0;
   @Input() top: number = 0;
   @Input() left: number = 0;
+  @Input() isSpawning: boolean = false;
+  @Input() isWrong: boolean = false;
 
   isHovered: boolean = false;
   bubbleGradient = '';
@@ -27,6 +29,14 @@ export class BubbleComponent implements OnInit {
         ${this.color} 60%
       )
     `;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['isWrong']) {
+      console.log("afterclick", this.isWrong);
+    }
+    if (changes['isSpawning']) {
+      console.log("after click spawning", this.isSpawning);}
   }
 
   @HostListener('mouseenter') onHover() {
