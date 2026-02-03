@@ -42,3 +42,421 @@
   color: white;
   font-size: 1.2em;
 }
+
+/* Burst Animation for Bubble - ENHANCED */
+@keyframes burst {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.9),
+                inset 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+  20% {
+    transform: scale(1.15);
+    opacity: 0.95;
+    box-shadow: 0 0 30px 5px rgba(255, 215, 0, 0.8),
+                inset 0 0 15px rgba(255, 255, 255, 0.4);
+  }
+  40% {
+    transform: scale(1.4);
+    opacity: 0.8;
+    box-shadow: 0 0 50px 15px rgba(255, 165, 0, 0.6),
+                inset 0 0 20px rgba(255, 100, 0, 0.3);
+  }
+  70% {
+    transform: scale(0.6);
+    opacity: 0.3;
+    box-shadow: 0 0 40px 20px rgba(255, 255, 100, 0.2);
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+    box-shadow: 0 0 0 30px rgba(255, 255, 255, 0);
+  }
+}
+
+/* Burst Ring Expansion Effect - ENHANCED */
+@keyframes burstRing {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+    border-width: 4px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  }
+  30% {
+    opacity: 0.6;
+    border-width: 3px;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+    border-width: 1px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0);
+  }
+}
+
+/* Particle Burst Animation - ENHANCED */
+@keyframes particleExplode {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+    filter: brightness(1.3);
+  }
+  50% {
+    opacity: 0.8;
+    filter: brightness(1);
+  }
+  100% {
+    transform: translate(
+      calc(cos(var(--angle)) * var(--velocity)),
+      calc(sin(var(--angle)) * var(--velocity))
+    ) scale(0);
+    opacity: 0;
+    filter: brightness(0.5);
+  }
+}
+
+/* Apply burst animation to bubble */
+.burst-animation {
+  animation: burst 800ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+  pointer-events: none;
+  position: relative;
+  z-index: 100;
+}
+
+/* Burst Ring Effect */
+.burst-ring {
+  position: fixed;
+  border: 4px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 499;
+  animation: burstRing 800ms ease-out forwards;
+  animation-delay: var(--ring-delay, 0ms);
+  transform-origin: center;
+}
+
+/* Enhanced Burst Particle */
+.burst-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 501;
+  animation: particleExplode var(--duration) cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity, filter;
+  text-shadow: 0 0 10px rgba(255, 255, 100, 1),
+               0 0 20px rgba(255, 165, 0, 0.8);
+  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 1))
+          drop-shadow(0 0 10px rgba(255, 100, 0, 0.8));
+}
+
+/* Wrong Answer Toast - Shake & Fade */
+@keyframes toastShake {
+  0%, 100% {
+    transform: translateX(0) scale(1);
+  }
+  25% {
+    transform: translateX(-8px) scale(1.02);
+  }
+  75% {
+    transform: translateX(8px) scale(1.02);
+  }
+}
+
+@keyframes toastFadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Wrong Answer Toast - Floating Text Only */
+@keyframes wrongFloatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) scale(0.9);
+    opacity: 0;
+  }
+}
+
+/* Floating Celebration Text - Float from random direction */
+@keyframes floatUpRight {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-150px) translateX(100px) scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes floatUpLeft {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-150px) translateX(-100px) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* Wrong Answer - Float from different directions */
+@keyframes wrongFloatUpRight {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120px) translateX(80px) scale(0.9);
+    opacity: 0;
+  }
+}
+
+@keyframes wrongFloatUpLeft {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120px) translateX(-80px) scale(0.9);
+    opacity: 0;
+  }
+}
+
+/* Letter Scatter Animation - Each letter goes different direction */
+@keyframes letterScatterUp {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(var(--tx, 0px)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes letterScatterUpLeft {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120px) translateX(-80px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes letterScatterUpRight {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120px) translateX(80px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Floating Celebration Text */
+.floating-celebration {
+  position: fixed;
+  pointer-events: none;
+  z-index: 500;
+
+  .celebration-text {
+    display: inline-block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #FFD700;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.9), 
+                 0 0 30px rgba(255, 165, 0, 0.7),
+                 0 0 45px rgba(255, 100, 0, 0.5);
+    white-space: nowrap;
+    letter-spacing: 3px;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+
+    .letter {
+      display: inline-block;
+      animation: letterScatterUp 800ms ease-out forwards;
+      animation-delay: var(--letter-delay, 0ms);
+
+      @for $i from 0 through 10 {
+        &:nth-child(#{$i + 1}) {
+          $angle: ($i * 36deg);
+          --tx: calc(sin(#{$angle}) * 60px);
+        }
+      }
+    }
+  }
+}
+
+/* Wrong Answer Toast */
+.wrong-toast {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 500;
+  pointer-events: none;
+  
+  .wrong-text {
+    display: inline-block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #f5576c;
+    text-shadow: 0 0 20px rgba(245, 87, 108, 0.9),
+                 0 0 35px rgba(240, 147, 251, 0.7),
+                 0 0 50px rgba(245, 87, 108, 0.5);
+    white-space: nowrap;
+    letter-spacing: 3px;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+
+    .letter {
+      display: inline-block;
+      animation: letterScatterUp 800ms ease-out forwards;
+      animation-delay: var(--letter-delay, 0ms);
+
+      @for $i from 0 through 7 {
+        &:nth-child(#{$i + 1}) {
+          $angle: ($i * 45deg);
+          --tx: calc(sin(#{$angle}) * 70px);
+        }
+      }
+    }
+  }
+}
+
+/* Celebration Modal */
+.celebration-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: celebrationSlideDown 500ms ease-out;
+
+  .celebration-content {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px 60px;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: celebrationPulse 600ms ease-in-out;
+
+    h2 {
+      font-size: 2.5rem;
+      margin: 0 0 10px 0;
+      font-weight: bold;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+  }
+}
+
+/* Wrong Answer Modal */
+.wrong-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: wrongSlideUp 400ms ease-out;
+
+  .wrong-content {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    padding: 40px 60px;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: wrongShake 800ms ease-in-out;
+
+    h2 {
+      font-size: 2.5rem;
+      margin: 0 0 10px 0;
+      font-weight: bold;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+  }
+}
+
+/* Remove old modal animations - not needed */
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes floatUpRight {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes floatUpLeft {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes wrongFloatUp {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes wrongFloatUpRight {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes wrongFloatUpLeft {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
