@@ -25,7 +25,7 @@
     ></app-bubble>
 
     <!-- Burst Ring Effects -->
-    <div 
+    <!-- <div 
       *ngFor="let ring of burstRings"
       class="burst-ring"
       [style.left.%]="ring.left"
@@ -33,7 +33,7 @@
       [style.width.px]="ring.size"
       [style.height.px]="ring.size"
       [style.--ring-delay]="ring.delay + 'ms'"
-    ></div>
+    ></div> -->
 
     <!-- Burst Particles (Stars/Bubbles) -->
     <div 
@@ -56,31 +56,25 @@
       [style.left.%]="celebrationPosition.left"
       [style.top.%]="celebrationPosition.top"
     >
-      <span class="celebration-text" [style.animation-name]="celebrationAnimation">
+      <!-- <span class="celebration-text" [style.animation-name]="celebrationAnimation">
         <span class="letter" style="--letter-delay: 0ms">🎉</span>
-        <span class="letter" style="--letter-delay: 500ms">C</span>
-        <span class="letter" style="--letter-delay: 1000ms">o</span>
-        <span class="letter" style="--letter-delay: 1500ms">r</span>
-        <span class="letter" style="--letter-delay: 2000ms">r</span>
-        <span class="letter" style="--letter-delay: 2500ms">e</span>
-        <span class="letter" style="--letter-delay: 3000ms">c</span>
-        <span class="letter" style="--letter-delay: 3500ms">t</span>
-        <span class="letter" style="--letter-delay: 4000ms">!</span>
-        <span class="letter" style="--letter-delay: 4500ms">🎉</span>
-      </span>
+        <span class="letter" style="--letter-delay: 60ms">C</span>
+        <span class="letter" style="--letter-delay: 120ms">o</span>
+        <span class="letter" style="--letter-delay: 180ms">r</span>
+        <span class="letter" style="--letter-delay: 240ms">r</span>
+        <span class="letter" style="--letter-delay: 300ms">e</span>
+        <span class="letter" style="--letter-delay: 360ms">c</span>
+        <span class="letter" style="--letter-delay: 420ms">t</span>
+        <span class="letter" style="--letter-delay: 480ms">!</span>
+        <span class="letter" style="--letter-delay: 540ms">🎉</span>
+      </span> -->
     </div>
 
     <!-- Wrong Answer Toast with Letter Scatter -->
     <div class="wrong-toast" *ngIf="showWrongAnswer">
-      <span class="wrong-text" [style.animation-name]="wrongAnimation">
-        <span class="letter" style="--letter-delay: 0ms">😞</span>
-        <span class="letter" style="--letter-delay: 60ms">W</span>
-        <span class="letter" style="--letter-delay: 120ms">r</span>
-        <span class="letter" style="--letter-delay: 180ms">o</span>
-        <span class="letter" style="--letter-delay: 240ms">n</span>
-        <span class="letter" style="--letter-delay: 300ms">g</span>
-        <span class="letter" style="--letter-delay: 360ms">!</span>
-      </span>
+      <span class="sad-face" style="--delay: 0ms">😞</span>
+      <span class="sad-face" style="--delay: 200ms">😭</span>
+      <span class="sad-face" style="--delay: 300ms">😔</span>
     </div>
 
     <app-question-modal

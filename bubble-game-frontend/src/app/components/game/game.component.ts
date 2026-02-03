@@ -37,7 +37,7 @@ export class GameComponent implements OnInit {
   burstingBubbleId: number | null = null;
   celebrationPosition = { left: 50, top: 50 };
   celebrationAnimation = 'floatUp';
-  wrongAnimation = 'wrongFloatUp';
+  // wrongAnimation = 'wrongFloatUp'; // commented out to disable wrong animations
   correctAudio: HTMLAudioElement | null = null; // NEW
   wrongAudio: HTMLAudioElement | null = null; // NEW
 
@@ -232,12 +232,21 @@ export class GameComponent implements OnInit {
       // CORRECT ANSWER
       this.burstingBubbleId = this.clickedBubbleId;
       this.celebrationAnimation = this.getRandomAnimation('celebration');
-      
-      this.celebrationPosition = {
-        left: 50 + (Math.random() * 20 - 10),
-        top: 40 + (Math.random() * 10 - 5)
-      };
-      
+
+      // Position celebration at the clicked bubble's coordinates when available
+      const clickedBubble = this.bubbles.find(b => b.id === this.clickedBubbleId);
+      if (clickedBubble) {
+        this.celebrationPosition = {
+          left: parseFloat(clickedBubble.left as any) || 50,
+          top: parseFloat(clickedBubble.top as any) || 40
+        };
+      } else {
+        this.celebrationPosition = {
+          left: 50 + (Math.random() * 20 - 10),
+          top: 40 + (Math.random() * 10 - 5)
+        };
+      }
+
       this.showCongratulations = true;
       this.playAudio('correct'); // PLAY CORRECT SOUND
       this.createBurstParticles(this.celebrationPosition.left, this.celebrationPosition.top);
@@ -254,15 +263,14 @@ export class GameComponent implements OnInit {
       
     } else {
       // WRONG ANSWER
-      this.wrongAnimation = this.getRandomAnimation('wrong');
       this.showWrongAnswer = true;
       this.playAudio('wrong'); // PLAY WRONG SOUND
       this.points--;
       this.createBubbles(false, 2);
-      
+
       setTimeout(() => {
         this.showWrongAnswer = false;
-      }, 800);
+      }, 1200);
     }
 
     this.state.recomputeAccuracy();
