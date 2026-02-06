@@ -8,7 +8,24 @@
     'left': left + '%'
   }"
   [class.hovered]="isHovered"
+  [class.spawning]="isSpawning"
+  [class.wrong]="isWrong"
   (click)="onClick()"
 >
   <span class="highlight"></span>
+  <div class="emoticon-container" *ngIf="isWrong">
+    <div class="sad-face">
+      <div class="face-overlay"></div>
+      <div class="eye left-eye">
+        <div class="pupil"></div>
+      </div>
+      <div class="eye right-eye">
+        <div class="pupil"></div>
+      </div>
+      <div class="mouth"></div>
+      <div class="tear left-tear"></div>
+      <div class="tear right-tear"></div>
+    </div>
+    <div class="wrong-badge">✗</div>
+  </div>
 </div>
