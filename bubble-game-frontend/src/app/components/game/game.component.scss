@@ -1,17 +1,20 @@
 .game-screen {
   position: relative;
   height: 100vh;
-  //background: url('assets/images/background.jpg') no-repeat center center fixed;
-  background-size: cover;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
+  font-family: 'Arial', sans-serif;
 }
 
 .bubbles-container {
   position: relative;
   width: 100%;
   height: 100%;
+  flex: 1;
 }
 
 .app-bubble {
@@ -37,10 +40,59 @@
 
 .hud {
   display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  color: white;
-  font-size: 1.2em;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px 30px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  gap: 20px;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-item .label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.stat-item .value {
+  color: #fff;
+  font-size: 1.5em;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Accuracy color coding */
+.accuracy-text {
+  transition: color 0.3s ease;
+}
+
+.accuracy-text {
+  color: #4ade80; /* Green for good accuracy */
+}
+
+/* Bubbles count animation on change */
+@keyframes countPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+.bubbles-count {
+  animation: countPulse 0.3s ease-out;
 }
 
 /* Burst Animation for Bubble - ENHANCED */

@@ -21,6 +21,8 @@
       [top]="bubble.top"
       [left]="bubble.left"
       [class.burst-animation]="burstingBubbleId === bubble.id"
+      [isSpawning]="bubble.isSpawning"
+      [isWrong]="bubble.isWrong"
       (click)="onBubbleClick(bubble.id)"
     ></app-bubble>
 
@@ -87,12 +89,21 @@
     ></app-question-modal>
   </div>
   <div class="hud">
-    <div class="username">{{ username }}</div>
-    <div class="accuracy">
-      Accuracy: {{ accuracy }}%
+    <div class="stat-item">
+      <span class="label">Player:</span>
+      <span class="value">{{ username }}</span>
     </div>
-    <div class="time-elapsed">
-      Time: {{ timeElapsed }}s
+    <div class="stat-item">
+      <span class="label">Accuracy:</span>
+      <span class="value accuracy-text">{{ accuracy }}%</span>
+    </div>
+    <div class="stat-item">
+      <span class="label">Time:</span>
+      <span class="value">{{ timeElapsed }}s</span>
+    </div>
+    <div class="stat-item">
+      <span class="label">Bubbles:</span>
+      <span class="value bubbles-count">{{ bubbles.length }}</span>
     </div>
   </div>
 </div>

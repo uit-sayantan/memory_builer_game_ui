@@ -66,7 +66,7 @@ export class GameComponent implements OnInit {
     this.wrongAudio.onerror = (e) => console.log('Wrong audio error:', e);
   }
 
-  createBubbles(isInitial: boolean = false,newBubbleCount: number) {
+  createBubbles(isInitial: boolean = false, newBubbleCount: number, isWrong: boolean = false) {
     let bubbleCount: number = 0;
     if(isInitial) {
      bubbleCount = 5 + Math.floor(Math.random() * 4);
@@ -83,7 +83,9 @@ export class GameComponent implements OnInit {
         color: `hsl(${Math.random() * 360}, 100%, 60%)`,
         size: 50 + Math.random() * 30,
         top: `${Math.random() * 80}`,
-        left: `${Math.random() * 80}`
+        left: `${Math.random() * 80}`,
+        isWrong: isWrong,
+        isSpawning: true  // Set spawning flag for new bubbles
       };
       //console.log('Creating bubble:', newBubble);
       if (isInitial) {
@@ -265,12 +267,15 @@ export class GameComponent implements OnInit {
       // WRONG ANSWER
       this.showWrongAnswer = true;
       this.playAudio('wrong'); // PLAY WRONG SOUND
+       console.log('Wrong answer!');
       this.points--;
-      this.createBubbles(false, 2);
+      this.createBubbles(false, 2, true); // Add 2 new bubbles for wrong answer with isWrong=true
+      //console.log('Correct answer was:', correctAnswerText);
 
       setTimeout(() => {
         this.showWrongAnswer = false;
       }, 1200);
+    
     }
 
     this.state.recomputeAccuracy();
