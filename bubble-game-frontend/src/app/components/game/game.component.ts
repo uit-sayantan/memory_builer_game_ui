@@ -28,8 +28,18 @@ export class GameComponent implements OnInit {
   currentQuestion: any = null;
   nextQuestion: any = null;
   showQuestionModal = false;
-  clickedBubbleId: number | null = null; // To track clicked bubble
+  clickedBubbleId: number | null = null;
   totalQuestionsVisited: number = 0;
+  particles: any[] = [];
+  burstRings: any[] = [];
+  showCongratulations = false;
+  showWrongAnswer = false;
+  burstingBubbleId: number | null = null;
+  celebrationPosition = { left: 50, top: 50 };
+  celebrationAnimation = 'floatUp';
+  // wrongAnimation = 'wrongFloatUp'; // commented out to disable wrong animations
+  correctAudio: HTMLAudioElement | null = null; // NEW
+  wrongAudio: HTMLAudioElement | null = null; // NEW
 
   constructor(private gameService: GameService, public state: GameStateService, private loader: LoaderService) {}
 
@@ -40,6 +50,20 @@ export class GameComponent implements OnInit {
       this.loader.hide();
       this.createBubbles(true,0);  // Initialize bubbles with fixed positions
     });
+    this.initializeAudio(); // NEW - Initialize audio on component load
+  }
+
+  // NEW - Initialize Audio Files
+  initializeAudio() {
+    this.correctAudio = new Audio();
+    this.correctAudio.src = 'audio/correct.mp3';
+    this.correctAudio.preload = 'auto';
+    this.correctAudio.onerror = (e) => console.log('Correct audio error:', e);
+    
+    this.wrongAudio = new Audio();
+    this.wrongAudio.src = 'audio/wrong.mp3';
+    this.wrongAudio.preload = 'auto';
+    this.wrongAudio.onerror = (e) => console.log('Wrong audio error:', e);
   }
 
   createBubbles(isInitial: boolean = false, newBubbleCount: number, isWrong: boolean = false) {
@@ -109,9 +133,97 @@ export class GameComponent implements OnInit {
     });
   }
 
+  // MODIFIED - Play Audio Function
+  playAudio(type: 'correct' | 'wrong') {
+    try {
+      const audio = type === 'correct' ? this.correctAudio : this.wrongAudio;
+      
+      if (!audio) {
+        console.log('Audio not initialized');
+        return;
+      }
+
+      // Reset and play
+      audio.currentTime = 0;
+      
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => console.log(`${type} audio playing`))
+          .catch(err => console.log(`${type} audio failed:`, err));
+      }
+    } catch (error) {
+      console.log('Audio error:', error);
+    }
+  }
+
+  // NEW FUNCTION - Create Burst Particles
+  createBurstParticles(burstX: number, burstY: number) {
+    const particleCount = 12 + Math.floor(Math.random() * 8);
+    const newParticles = [];
+    const particles = ['✨', '⭐', '💫', '🌟'];
+    
+    for (let i = 0; i < particleCount; i++) {
+      const angle = (i / particleCount) * Math.PI * 2;
+      const velocity = 80 + Math.random() * 150;
+      const randomParticle = particles[Math.floor(Math.random() * particles.length)];
+      
+      newParticles.push({
+        id: Math.random(),
+        left: burstX,
+        top: burstY,
+        angle: angle,
+        velocity: velocity,
+        duration: 700 + Math.random() * 300,
+        particle: randomParticle,
+        size: 1 + Math.random() * 0.5
+      });
+    }
+    
+    this.particles = newParticles;
+    this.createBurstRings(burstX, burstY);
+    
+    setTimeout(() => {
+      this.particles = [];
+      this.burstRings = [];
+    }, 1000);
+  }
+
+  // NEW FUNCTION - Create Burst Rings
+  createBurstRings(burstX: number, burstY: number) {
+    const ringCount = 3;
+    const newRings = [];
+    
+    for (let i = 0; i < ringCount; i++) {
+      newRings.push({
+        id: Math.random(),
+        left: burstX,
+        top: burstY,
+        delay: i * 50,
+        size: 40 + (i * 20)
+      });
+    }
+    
+    this.burstRings = newRings;
+  }
+
+  // NEW FUNCTION - Random Animation
+  getRandomAnimation(type: 'celebration' | 'wrong'): string {
+    const random = Math.random();
+    if (type === 'celebration') {
+      if (random < 0.33) return 'floatUp';
+      if (random < 0.66) return 'floatUpLeft';
+      return 'floatUpRight';
+    } else {
+      if (random < 0.33) return 'wrongFloatUp';
+      if (random < 0.66) return 'wrongFloatUpLeft';
+      return 'wrongFloatUpRight';
+    }
+  }
+
+  // MODIFIED FUNCTION - Answer Selection
   onAnswerSelected(answer: string) {
     if(answer === 'timeout') {
-     // console.log('Time out! No answer selected.');
       this.onSkipQuestion();
       return;
     } 
@@ -119,18 +231,55 @@ export class GameComponent implements OnInit {
     const correctAnswerText = this.currentQuestion[`answer_${correctAnswerIndex}`];
 
     if (answer === correctAnswerText) {
-      //console.log('Correct answer!');
+      // CORRECT ANSWER
+      this.burstingBubbleId = this.clickedBubbleId;
+      this.celebrationAnimation = this.getRandomAnimation('celebration');
+
+      // Position celebration at the clicked bubble's coordinates when available
+      const clickedBubble = this.bubbles.find(b => b.id === this.clickedBubbleId);
+      if (clickedBubble) {
+        this.celebrationPosition = {
+          left: parseFloat(clickedBubble.left as any) || 50,
+          top: parseFloat(clickedBubble.top as any) || 40
+        };
+      } else {
+        this.celebrationPosition = {
+          left: 50 + (Math.random() * 20 - 10),
+          top: 40 + (Math.random() * 10 - 5)
+        };
+      }
+
+      this.showCongratulations = true;
+      this.playAudio('correct'); // PLAY CORRECT SOUND
+      this.createBurstParticles(this.celebrationPosition.left, this.celebrationPosition.top);
       this.points++;
-      this.removeBubble(); // Remove the exact bubble that was clicked
+      
+      setTimeout(() => {
+        this.removeBubble();
+        this.burstingBubbleId = null;
+      }, 800);
+      
+      setTimeout(() => {
+        this.showCongratulations = false;
+      }, 800);
+      
     } else {
-      console.log('Wrong answer!');
+      // WRONG ANSWER
+      this.showWrongAnswer = true;
+      this.playAudio('wrong'); // PLAY WRONG SOUND
+       console.log('Wrong answer!');
       this.points--;
       this.createBubbles(false, 2, true); // Add 2 new bubbles for wrong answer with isWrong=true
       //console.log('Correct answer was:', correctAnswerText);
+
+      setTimeout(() => {
+        this.showWrongAnswer = false;
+      }, 1200);
+    
     }
 
     this.state.recomputeAccuracy();
-    this.showQuestionModal = false; // Hide modal after selection
+    this.showQuestionModal = false;
     this.updateAccuracy();
     this.checkGameStatus();
   }
